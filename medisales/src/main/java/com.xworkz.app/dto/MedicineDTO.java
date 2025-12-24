@@ -3,8 +3,10 @@ package com.xworkz.app.dto;
 
 import lombok.*;
 
+  med
+ 
 @Getter
-@Setter
+@Setter 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

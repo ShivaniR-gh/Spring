@@ -2,6 +2,7 @@ package com.xworkz.app.service;
 
 import com.xworkz.app.dto.MedicineDTO;
 
+  med
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -21,4 +22,8 @@ public interface MedicineService {
     }
 
 
+ 
+public interface MedicineService {
+    boolean validateAndSave(MedicineDTO medicineDTO) throws Exception;
+  main
 }

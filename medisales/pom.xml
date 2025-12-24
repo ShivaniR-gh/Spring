@@ -43,6 +43,7 @@
       <scope>test</scope>
     </dependency>
 
+ med
     <dependency>
       <groupId>jstl</groupId>
       <artifactId>jstl</artifactId>
@@ -55,6 +56,8 @@
       <version>2.1</version>
     </dependency>
 
+ 
+  main
   </dependencies>
 
   <build>

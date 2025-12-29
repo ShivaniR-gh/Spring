@@ -1,13 +1,21 @@
 package com.xworkz.jobapp.dao;
 
+
 import com.xworkz.jobapp.dto.JobSeekerDTO;
 import lombok.SneakyThrows;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Component;
+
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Component
 public class JobAccountDAOImpl implements JobAccountDAO {
@@ -20,29 +28,41 @@ public class JobAccountDAOImpl implements JobAccountDAO {
     @Override
     public boolean save(JobSeekerDTO jobSeekerDTO) {
 
-        String sql = "INSERT INTO job_seeker " +
-                "(first_name, last_name, email, phone, address, experience_type, company_name, job_title, from_date, lwd, summary, skills) " +
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        Configuration configuration = new Configuration();
+        configuration.configure();
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(jobSeekerDTO);
+        transaction.commit();
 
-            ps.setString(1, jobSeekerDTO.getFirstName());
-            ps.setString(2, jobSeekerDTO.getLastName());
-            ps.setString(3, jobSeekerDTO.getEmail());
-            ps.setString(4, jobSeekerDTO.getPhone());
-            ps.setString(5, jobSeekerDTO.getAddress());
-            ps.setString(6, jobSeekerDTO.getExperienceType());
-            ps.setString(7, jobSeekerDTO.getCompanyName());
-            ps.setString(8, jobSeekerDTO.getJobTitle());
-            ps.setString(9, jobSeekerDTO.getFromDate());
-            ps.setString(10, jobSeekerDTO.getLastWorkingDate());
-            ps.setString(11, jobSeekerDTO.getProfessionalSummary());
-            ps.setString(12, jobSeekerDTO.getSkills());
 
-            int rows = ps.executeUpdate();
-            return rows > 0;
 
-        }
+
+//        String sql = "INSERT INTO job_seeker " +
+//                "(first_name, last_name, email, phone, address, experience_type, company_name, job_title, from_date, lwd, summary, skills) " +
+//                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+//        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+//            PreparedStatement ps = connection.prepareStatement(sql);
+//
+//            ps.setString(1, jobSeekerDTO.getFirstName());
+//            ps.setString(2, jobSeekerDTO.getLastName());
+//            ps.setString(3, jobSeekerDTO.getEmail());
+//            ps.setString(4, jobSeekerDTO.getPhone());
+//            ps.setString(5, jobSeekerDTO.getAddress());
+//            ps.setString(6, jobSeekerDTO.getExperienceType());
+//            ps.setString(7, jobSeekerDTO.getCompanyName());
+//            ps.setString(8, jobSeekerDTO.getJobTitle());
+//            ps.setString(9, jobSeekerDTO.getFromDate());
+//            ps.setString(10, jobSeekerDTO.getLastWorkingDate());
+//            ps.setString(11, jobSeekerDTO.getProfessionalSummary());
+//            ps.setString(12, jobSeekerDTO.getSkills());
+//
+//            int rows = ps.executeUpdate();
+//            return rows > 0;
+//
+//        }
+        return true;
     }
 
     @SneakyThrows
@@ -143,12 +163,26 @@ public class JobAccountDAOImpl implements JobAccountDAO {
     @SneakyThrows
     @Override
     public boolean deleteById(int id) {
-        String sql = "delete from job_seeker where id = ? ";
+        boolean isMedicineDeleted = false;
+        Configuration configuration = new Configuration();
+        configuration.configure();
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
 
-        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+        JobSeekerDTO jobSeekerDTO = session.get(JobSeekerDTO.class , id);
+        if(jobSeekerDTO != null){
+            session.delete(jobSeekerDTO);
+            transaction.commit();
+            isMedicineDeleted = true;
         }
+        return isMedicineDeleted;
+//        String sql = "delete from job_seeker where id = ? ";
+//
+//        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+//             PreparedStatement ps = con.prepareStatement(sql)) {
+//            ps.setInt(1, id);
+//            return ps.executeUpdate() > 0;
+//        }
     }
 }

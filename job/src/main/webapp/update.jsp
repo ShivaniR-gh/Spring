@@ -1,64 +1,118 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<!DOCTYPE html>
 <html>
 <head>
     <title>Update Job Seeker</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script>
+        function toggleExperience() {
+            var exp = document.getElementById("experienceType").value;
+            var section = document.getElementById("experienceSection");
+
+            if (exp === "Experienced") {
+                section.style.display = "block";
+            } else {
+                section.style.display = "none";
+            }
+        }
+    </script>
 </head>
-<body>
 
-<c:if test="${not empty job}">
-    <h2>Edit Job Seeker</h2>
+<body class="bg-light" onload="toggleExperience()">
 
-    <form action="updateAccount" method="post">
+<div class="container mt-5">
 
-        <input type="hidden" name="id" value="${job.id}">
+    <c:if test="${not empty job}">
+        <div class="card p-4 shadow">
 
-        First Name:
-        <input type="text" name="firstName" value="${job.firstName}"><br><br>
+            <h3 class="text-center mb-4">Edit Job Seeker</h3>
 
-        Last Name:
-        <input type="text" name="lastName" value="${job.lastName}"><br><br>
+            <form action="updateAccount" method="post">
 
-        Email:
-        <input type="text" name="email" value="${job.email}" readonly><br><br>
+                <input type="hidden" name="id" value="${job.id}">
 
-        Phone:
-        <input type="text" name="phone" value="${job.phone}"><br><br>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label>First Name</label>
+                        <input type="text" name="firstName" class="form-control" value="${job.firstName}">
+                    </div>
+                    <div class="col">
+                        <label>Last Name</label>
+                        <input type="text" name="lastName" class="form-control" value="${job.lastName}">
+                    </div>
+                </div>
 
-        Address:
-        <input type="text" name="address" value="${job.address}"><br><br>
+                <div class="mb-3">
+                    <label>Email</label>
+                    <input type="text" class="form-control" value="${job.email}" readonly>
+                </div>
 
-        Experience Type:
-        <input type="text" name="experienceType" value="${job.experienceType}"><br><br>
+                <div class="mb-3">
+                    <label>Phone</label>
+                    <input type="text" name="phone" class="form-control" value="${job.phone}">
+                </div>
 
-        Company Name:
-        <input type="text" name="companyName" value="${job.companyName}"><br><br>
+                <div class="mb-3">
+                    <label>Address</label>
+                    <input type="text" name="address" class="form-control" value="${job.address}">
+                </div>
 
-        Job Title:
-        <input type="text" name="jobTitle" value="${job.jobTitle}"><br><br>
+                <div class="mb-3">
+                    <label>Experience Type</label>
+                    <select name="experienceType" id="experienceType"
+                            class="form-select" onchange="toggleExperience()">
+                        <option value="Fresher" ${job.experienceType=='Fresher'?'selected':''}>Fresher</option>
+                        <option value="Experienced" ${job.experienceType=='Experienced'?'selected':''}>Experienced</option>
+                    </select>
+                </div>
 
-        From Date:
-        <input type="date" name="fromDate" value="${job.fromDate}"><br><br>
+                <div id="experienceSection">
+                    <div class="mb-3">
+                        <label>Company Name</label>
+                        <input type="text" name="companyName" class="form-control" value="${job.companyName}">
+                    </div>
 
-        Last Working Date:
-        <input type="date" name="lastWorkingDate" value="${job.lastWorkingDate}"><br><br>
+                    <div class="mb-3">
+                        <label>Job Title</label>
+                        <input type="text" name="jobTitle" class="form-control" value="${job.jobTitle}">
+                    </div>
 
-        Professional Summary:
-        <textarea name="professionalSummary">${job.professionalSummary}</textarea><br><br>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>From Date</label>
+                            <input type="date" name="fromDate" class="form-control" value="${job.fromDate}">
+                        </div>
+                        <div class="col">
+                            <label>Last Working Date</label>
+                            <input type="date" name="lastWorkingDate" class="form-control" value="${job.lastWorkingDate}">
+                        </div>
+                    </div>
+                </div>
 
-        Skills:
-        <input type="text" name="skills" value="${job.skills}"><br><br>
+                <div class="mb-3">
+                    <label>Professional Summary</label>
+                    <textarea name="professionalSummary" class="form-control">${job.professionalSummary}</textarea>
+                </div>
 
-        <input type="submit" value="Update">
+                <div class="mb-3">
+                    <label>Skills</label>
+                    <input type="text" name="skills" class="form-control" value="${job.skills}">
+                </div>
 
-    </form>
-</c:if>
+                <button class="btn btn-success">Update</button>
+                <a href="getAll" class="btn btn-secondary ms-2">Back</a>
+            </form>
 
-<p style="color:green">${successMessage}</p>
-<p style="color:red">${errorMessage}</p>
+        </div>
+    </c:if>
 
-<a href="getAll">Back to List</a>
+    <p class="text-success">${successMessage}</p>
+    <p class="text-danger">${errorMessage}</p>
 
+</div>
 </body>
 </html>

@@ -27,6 +27,11 @@ public class JobAccountController {
         return "index";
     }
 
+    @GetMapping("/searchPage")
+    public String openSearchPage() {
+        return "search";
+    }
+
     @PostMapping("/addAccount")
     public String addAccount(JobSeekerDTO dto) {
 

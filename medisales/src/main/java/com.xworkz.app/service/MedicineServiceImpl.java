@@ -4,6 +4,7 @@ import com.xworkz.app.dao.MedicineDAO;
 import com.xworkz.app.dto.MedicineDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+  med
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -11,13 +12,20 @@ import java.util.Optional;
 public class MedicineServiceImpl implements MedicineService {
     @Autowired
     MedicineDAO medicineDAO;
+ 
 
+@Component
+public class MedicineServiceImpl implements MedicineService{
+    @Autowired
+    MedicineDAO medicineDAO;
+ main
     @Override
     public boolean validateAndSave(MedicineDTO medicineDTO) throws Exception {
 
 
         boolean isInvalid = false;
 
+  med
         if (medicineDTO.getMedicineName() == null || medicineDTO.getMedicineName().trim().isEmpty()) {
             isInvalid = true;
         }
@@ -35,10 +43,23 @@ public class MedicineServiceImpl implements MedicineService {
         }
 
         if (isInvalid) {
+ 
+        if(medicineDTO.getMedicineName().length() < 0){
+            isInvalid = true;
+        } else if (medicineDTO.getPrice() == 0) {
+            isInvalid = true;
+        } else if (medicineDTO.getExpiryDate() == null) {
+            isInvalid = true;
+        }else if (medicineDTO.getMg() == null){
+            isInvalid = true;
+        }
+        if (isInvalid){
+  main
             throw new Exception("The entered data is not valid");
         }
         boolean saved = medicineDAO.save(medicineDTO);
 
+ med
         return saved;
 
     }
@@ -103,6 +124,9 @@ public class MedicineServiceImpl implements MedicineService {
             throw new Exception("Invalid data");
         }
         return medicineDAO.update(medicineDTO);
+ 
+        return  saved;
+  main
 
     }
 }

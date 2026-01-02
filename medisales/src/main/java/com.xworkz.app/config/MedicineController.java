@@ -34,6 +34,7 @@ public class MedicineController {
            return "error.jsp";
        }
     }
+ med
 
     @GetMapping("/search")
     public String searchByMedicineName(@RequestParam("medicineName") String medicineName ,
@@ -82,3 +83,5 @@ public class MedicineController {
 
 
 
+}
+ main

@@ -1,16 +1,18 @@
 package com.xworkz.ShivaniRApp.util;
 
+import org.springframework.stereotype.Component;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
+@Component   //  VERY IMPORTANT
 public class PasswordCipherUtil {
 
     private static final String ALGORITHM = "AES";
-    private static final String SECRET_KEY = "XworkzSecretKey"; // 16 chars
+    private static final String SECRET_KEY = "XworkzSecretKey1"; // 16 chars
 
-    // Encrypt password
-    public static String encrypt(String password) {
+    public String encrypt(String password) {
         try {
             SecretKeySpec key = new SecretKeySpec(SECRET_KEY.getBytes(), ALGORITHM);
             Cipher cipher = Cipher.getInstance(ALGORITHM);
@@ -22,8 +24,7 @@ public class PasswordCipherUtil {
         }
     }
 
-    //  Decrypt (optional – not required for login)
-    public static String decrypt(String encryptedPassword) {
+    public String decrypt(String encryptedPassword) {
         try {
             SecretKeySpec key = new SecretKeySpec(SECRET_KEY.getBytes(), ALGORITHM);
             Cipher cipher = Cipher.getInstance(ALGORITHM);

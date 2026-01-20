@@ -9,6 +9,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
@@ -16,7 +19,8 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = "com.xworkz.ShivaniRApp")
-public class AppConfiguration {
+@EnableWebMvc
+public class AppConfiguration implements WebMvcConfigurer {
 
     private static final Log log = LogFactory.getLog(AppConfiguration.class);
 
@@ -52,5 +56,10 @@ public class AppConfiguration {
         local.setJpaProperties(getProperties());
         local.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         return local;
+    }
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
     }
 }
